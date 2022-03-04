@@ -26,10 +26,11 @@ export class Thing extends Component<Props> {
 
     this.simplify = geoTransform({
       point() {
-        // original code, before transpilation is
-        // `this.stream.point();`
-        // note in the dev tools that `this` does indeed have a stream object on it, with a point method therein, which can be called.
-        // but regardless, at a more basic level, this point method is NOT an arrow, and so references to `this` therein should NOT be transformed to anything
+        // ERROR IS HERE. At runtime, the `this` value from `this.stream.point`, below, is transformed to `_this`,
+        // with a value bound to the class component's `this` value, which has no stream object.
+
+        // Note in the dev tools that `this` does indeed have a stream object on it, with a point method therein, which can be called.
+        // But regardless, at a more basic level, the point method is NOT an arrow, and so references to `this` inside of it should NOT be transformed
         debugger;
         this.stream.point();
       },
